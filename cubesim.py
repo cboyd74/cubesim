@@ -1,4 +1,5 @@
 import numpy as np
+import sys
 
 class Cube:
 	# internal represenation of the cube:
@@ -19,6 +20,9 @@ class Cube:
 	# Data structure: the cube will be a numpy array in which each element
 	#                 is a numpy matrix representing a side of the cube
 	#
+	#	cube =  [ [0,0,0]  [1,1,1]          [5,5,5]
+	#			  [0,0,0]  [1,1,1]          [5,5,5]
+	#			  [0,0,0], [1,1,1], . . . . [5,5,5] ]
  
 	def __init__(self, size):
 		max_size = 4
@@ -51,37 +55,49 @@ class Cube:
 		print("current state of the cube")
 		print("================================")
 		for i in range(0, self.size):
-			for h in range(0, self.size+5):
+			for h in range(0, self.size+7):
 				print(" ", sep = "", end = "")
 			for j in range(0, self.size):
 				if (j == self.size - 1):
 					print(self.cube[4][i][j], sep = "")
 				else:
-					print(self.cube[4][i][j], sep = "", end = "")
+					print(self.cube[4][i][j], sep = "", end = " ")
 		#print sides 2, then 0, then 3, then 1
 		for i in range(0, self.size):
 			print("   ", sep = "", end = "")
 			for j in range(0, self.size):
-				print(self.cube[2][i][j], sep = "", end = "")
+				if (j == self.size - 1):
+					print(self.cube[2][i][j], sep = "", end = "")
+					continue
+				print(self.cube[2][i][j], sep = "", end = " ")
 			print("  ", end = "")
 			for j in range(0, self.size):
-				print(self.cube[0][i][j], sep = "", end = "")
+				if (j == self.size - 1):
+					print(self.cube[0][i][j], sep = "", end = "")
+					continue
+				print(self.cube[0][i][j], sep = "", end = " ")
 			print("  ", end = "")
 			for j in range(0, self.size):
-				print(self.cube[3][i][j], sep = "", end = "")
+				if (j == self.size - 1):
+					print(self.cube[3][i][j], sep = "", end = "")
+					continue
+				print(self.cube[3][i][j], sep = "", end = " ")
 			print("    ", end = "")
 			for j in range(0, self.size):
-				print(self.cube[1][i][j], sep = "", end = "")
+				if (j == self.size - 1):
+					print(self.cube[1][i][j], sep = "", end = "")
+					continue
+				print(self.cube[1][i][j], sep = "", end = " ")
 			print("")
 		#print side 5 on bottom		
 		for i in range(0, self.size):
- 			for h in range(0, self.size+5):
+ 			for h in range(0, self.size+7):
  				print(" ", sep = "", end = "")
  			for j in range(0, self.size):
  				if (j == self.size - 1):
  					print(self.cube[5][i][j], sep = "")
  				else:
- 					print(self.cube[5][i][j], sep = "", end = "")
+ 					print(self.cube[5][i][j], sep = "", end = " ")
 		print("================================")
 		print("================================")
 class Sim:
