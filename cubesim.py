@@ -1,31 +1,13 @@
 import numpy as np
 import sys
 
+# This class serves as a model for a Rubik's Cube, made up of Sides
 class Cube:
-	# internal represenation of the cube:
-	#
-	#          444
-	#          444 
-	#          444
-	#      222 000 333    111
-	#      222 000 333    111
-	#      222 000 333    111
-	#          555
-    #          555
-    #          555
-	#
-	# As shown above, for each even numbered index i, the odd index
-	# i + 1 is i's opposite side
-	#
-	# Data structure: the cube will be a numpy array in which each element
-	#                 is a numpy matrix representing a side of the cube
-	#
-	#	cube =  [ [0,0,0]  [1,1,1]          [5,5,5]
-	#			  [0,0,0]  [1,1,1]          [5,5,5]
-	#			  [0,0,0], [1,1,1], . . . . [5,5,5] ]
  
+	#---------------------------------------------------------------
+
 	def __init__(self, size):
-		max_size = 4
+		max_size = 8
 		min_size = 2
 		default_size = 3
 		
@@ -33,76 +15,84 @@ class Cube:
 			self.size = size
 		else: 
 			self.size = default_size
-		self.cube = [] 
+		self.sides = []
+		self.init_cube()
+		self.looking_at = self.sides[0] 
+
+	def init_cube(self):
 		side = 0
 		for i in range(0, 6):
-			self.cube.append(np.full((self.size, self.size), side))
+			self.sides.append(Side(i, self.size))
 			side += 1
-		self.cube = np.array(self.cube) 
+		self.sides = np.array(self.sides)
 	
+	#---------------------------------------------------------------
+
+	# Reorients the cube in the given direction: up, down, left, right
+	def orient_cube(self, direction):	
+		print("")	
+
 	#peforms the specified move, changes state of cube	
 	def move(component, direction):
 		#front to the right
 		print("")
 
-	def get_opposite_side(self, side):
-		if (side % 2 == 0): #is an even side
-			return self.cube[side+1]
-		return self.cube[size-1] 
+	#---------------------------------------------------------------
+
+	#Output stuff
+	def print_row(self, side, i):
+		for j in range(0, self.size):
+			current = self.sides[side].values
+			print(current[i][j], sep = "", end = " ")
 	
 	def print_cube(self):
+
 		print("================================")
 		print("current state of the cube")
 		print("================================")
+		
+		#print side 4 on top
 		for i in range(0, self.size):
-			for h in range(0, self.size+7):
+			for h in range(0, self.size+8): #for spacing
 				print(" ", sep = "", end = "")
-			for j in range(0, self.size):
-				if (j == self.size - 1):
-					print(self.cube[4][i][j], sep = "")
-				else:
-					print(self.cube[4][i][j], sep = "", end = " ")
+			self.print_row(4, i)
+			print("")
 		#print sides 2, then 0, then 3, then 1
 		for i in range(0, self.size):
 			print("   ", sep = "", end = "")
-			for j in range(0, self.size):
-				if (j == self.size - 1):
-					print(self.cube[2][i][j], sep = "", end = "")
-					continue
-				print(self.cube[2][i][j], sep = "", end = " ")
+			self.print_row(2, i) #print 2
 			print("  ", end = "")
-			for j in range(0, self.size):
-				if (j == self.size - 1):
-					print(self.cube[0][i][j], sep = "", end = "")
-					continue
-				print(self.cube[0][i][j], sep = "", end = " ")
+			self.print_row(0, i)
 			print("  ", end = "")
-			for j in range(0, self.size):
-				if (j == self.size - 1):
-					print(self.cube[3][i][j], sep = "", end = "")
-					continue
-				print(self.cube[3][i][j], sep = "", end = " ")
+			self.print_row(3, i)
 			print("    ", end = "")
-			for j in range(0, self.size):
-				if (j == self.size - 1):
-					print(self.cube[1][i][j], sep = "", end = "")
-					continue
-				print(self.cube[1][i][j], sep = "", end = " ")
+			self.print_row(1, i)
 			print("")
 		#print side 5 on bottom		
 		for i in range(0, self.size):
- 			for h in range(0, self.size+7):
- 				print(" ", sep = "", end = "")
- 			for j in range(0, self.size):
- 				if (j == self.size - 1):
- 					print(self.cube[5][i][j], sep = "")
- 				else:
- 					print(self.cube[5][i][j], sep = "", end = " ")
+			for h in range(0, self.size+8):
+				print(" ", sep = "", end = "")
+			self.print_row(5, i)
+			print("")
 		print("================================")
 		print("================================")
+
+	#---------------------------------------------------------------
+
+class Side:
+
+	# members
+	#	values --> 2D numpy matrix	
+	#	id     --> ID of this side (0 - 5)
+	#
+	def __init__(self, id, size):
+		self.size = size
+		self.id = id
+		self.values = np.full((self.size, self.size), self.id) 
+
 class Sim:
 	def main():
 		cube = Cube(3)
 		cube.print_cube()
-	if __name__ == "__main__":
-		main()
+	#if __name__ == "__main__":
+	#	main()
