@@ -3,34 +3,39 @@ import cubesim
 class CubeSimTests():
 	
 	def __init__(self):
-		print("TESTING CUBESIM.PY")
+		print("++++++++++++++++++++++++++++++++++++")
+		print("++ Welcome to the CubeSim tester.")
+		print("++++++++++++++++++++++++++++++++++++")
 
 	#-----------------------------------------------------------
 
-	def print_success(self, test_name):
-		print("************************************")
-		print("** SUCCESS.")
-		print("************************************")                 
+	def print_success(self, msg):
+		print("++", msg)
 
 	#-----------------------------------------------------------
 	
-	def print_failure(self, test_name):
-		print("************************************")
-		print("** FAILURE.")
-		print("************************************")
+	def print_failure(self, msg):
+		print("--", msg)
 
 	#-----------------------------------------------------------	
 	
 	# Compares the cube's Side's id with the sides given.
 	# Returns False if the sides are out of order.
 	def compare_cube(self,cube, verify_sides):
-		test_sides = cube.sides
-		for i in range(0, 6):
-			if (test_sides[i].id != verify_sides[i]):
-				return False
+		if (cube.front.id != verify_sides[0]):
+			return False
+		if (cube.back.id != verify_sides[1]):
+			return False
+		if (cube.left.id != verify_sides[2]):
+			return False
+		if (cube.right.id != verify_sides[3]):
+			return False
+		if (cube.top.id != verify_sides[4]):
+			return False
+		if (cube.bottom.id != verify_sides[5]):
+			return False
 		return True	
 
-	#-----------------------------------------------------------
 	#-----------------------------------------------------------
 
 	# Tests the functionality of left and right operations
@@ -40,10 +45,10 @@ class CubeSimTests():
 	#	cube.print_cube()
 		
 		# Test left 1
-		verify_cube = [2, 3, 1, 0, 4, 5] 
+		verify_cube = [3, 2, 0, 1, 4, 5] 
 		cube.orient_cube("left")
 		if (not self.compare_cube(cube, verify_cube)):
-			return False, "orient_cube() left operation test 1: failed."
+			return False, "orient_cube left operation test 1: failed."
 
 		# Test left 2
 		verify_cube = [1, 0, 3, 2, 4, 5]
@@ -54,7 +59,7 @@ class CubeSimTests():
 		cube.init_cube() #reset the cube
 	
 		# Test right 2
-		verify_cube = [3, 2, 0, 1, 4, 5]
+		verify_cube = [2, 3, 1, 0, 4, 5]
 		cube.orient_cube("right")
 		if (not self.compare_cube(cube, verify_cube)):
 			return False, "orient_cube right operation test 1: failed."
@@ -106,8 +111,8 @@ class CubeSimTests():
  	#-----------------------------------------------------------
 
 	def test3(self):
-		print("")
-		return True
+		print("", end = "")
+		return False, "test 3 failed." 
 	#-----------------------------------------------------------
 
 	def test4(self):
@@ -117,21 +122,22 @@ class CubeSimTests():
 	#-----------------------------------------------------------
 
 	def run_tests(self, tests):
+		print("Beginning", len(tests), "tests...")
+		passed = 0
 		for test in tests:
 			res, msg = test()
 			if (res == True):
-				self.print_success(str(test))
-				print(msg)
-				print("************************************")
+				self.print_success(msg)
+				passed += 1
 			else:
-				self.print_failure(str(test))
-				print(msg)
-				print("************************************")
+				self.print_failure(msg)
+		print("CubeSim Tester: passed", passed, "out of", len(tests), "tests.")
+		print("goodbye.")
 
 class Main():
 	def main():
 		tester = CubeSimTests()
-		tests = [tester.test_orient_cube1]
+		tests = [tester.test_orient_cube1, tester.test_orient_cube2, tester.test3]
 		tester.run_tests(tests)
 
 	if __name__ == "__main__":
