@@ -15,8 +15,6 @@ class Cube:
     #  |-- top:     side currently on the top of the cube
 	#  |-- bottom:  side currently on the bottom of the cube
  
-	#---------------------------------------------------------------
-
 	def __init__(self, n):
 		max_size = 8
 		min_size = 2
@@ -37,10 +35,9 @@ class Cube:
 		self.top = Side(4, self.size)
 		self.bottom = Side(5, self.size)
 	
-	#---------------------------------------------------------------
-
 	# Reorients the cube in the given direction: up, down, left, right
-	def orient_cube(self, direction):
+	def orient(self, direction):
+
 		if (direction == "up"):
 			tmp = self.front
 			self.front = self.bottom #bottom becomes front
@@ -55,6 +52,7 @@ class Cube:
 			self.bottom = tmp # back becomes bottom
 			self.left.rotate_left() # rotate left side
 			self.right.rotate_right() # rotate right side
+
 		elif (direction == "down"):
 			tmp = self.back
 			tmp.rotate_right()
@@ -69,7 +67,7 @@ class Cube:
 			self.bottom = tmp # front becomes bottom
 			self.left.rotate_right() # rotate left side
 			self.right.rotate_left() # rotate right side
-		# move cube left	
+
 		elif(direction == "left"): # move cube left
 			tmp = self.front
 			self.front = self.right # right becomes front
@@ -80,7 +78,7 @@ class Cube:
 			self.right = tmp # back becomes right
 			self.top.rotate_right()# rotate top 
 			self.bottom.rotate_left() # rotate bottom
-		# move cube right
+
 		elif(direction == "right"): #move cube right
 			tmp = self.front	
 			self.front = self.left # left becomes front
@@ -91,7 +89,7 @@ class Cube:
 			self.left = tmp # back becomes left
 			self.top.rotate_left() # rotate top 
 			self.bottom.rotate_right() # rotate bottom
-		# move cube side left
+
 		elif (direction == "side left"):
 			tmp = self.top
 			tmp.rotate_left() 
@@ -106,7 +104,7 @@ class Cube:
 			self.right = tmp # right becomes bottom
 			self.front.rotate_left() # rotate front
 			self.back.rotate_right() # rotate back	
-		# move cube side right
+
 		elif (direction == "side right"):
 			tmp = self.top
 			tmp.rotate_right()
@@ -121,6 +119,7 @@ class Cube:
 			self.left = tmp
 			self.front.rotate_right() # rotate front
 			self.back.rotate_left() # rotate back
+
 		else: # input error
 			print("orient_cube: input error!")
 
@@ -129,8 +128,6 @@ class Cube:
 		#front to the right
 		print("")
 
-	#---------------------------------------------------------------
-
 	#Output stuff
 	def print_row(self, side, i):
 		for j in range(0, self.size):
@@ -138,13 +135,16 @@ class Cube:
 			print(colored(value, self.colors[value]), sep = "", end = " ")
 	
 	def print_cube(self):
-		print("+++++++++++++++++++++++++++++++++++++++")
+		print("- - - - - - - - - - - - - - - - - - - - - -")
+		print(" - - - - - - - - - - - - - - - - - - - - -")
+
 		#print top
 		for i in range(0, self.size):
 			for h in range(0, self.size+8): #for spacing
 				print(" ", sep = "", end = "")
 			self.print_row(self.top, i)
 			print("")
+
 		#print sides 2, then 0, then 3, then 1
 		for i in range(0, self.size):
 			print("   ", sep = "", end = "")
@@ -156,15 +156,16 @@ class Cube:
 			print("    ", end = "")
 			self.print_row(self.back, i)
 			print("")
+
 		#print side 5 on bottom		
 		for i in range(0, self.size):
 			for h in range(0, self.size+8):
 				print(" ", sep = "", end = "")
 			self.print_row(self.bottom, i)
 			print("")
-		print("+++++++++++++++++++++++++++++++++++++++")
 
-	#---------------------------------------------------------------
+		print(" - - - - - - - - - - - - - - - - - - - - -")
+		print("- - - - - - - - - - - - - - - - - - - - - -")
 
 class Side:
 
@@ -216,9 +217,30 @@ class Sim:
 		self.cubing(cube)
 
 	def cubing(self, cube):
-		inp = input()
-		while (inp != "q" and inp != "Q"):
-			if (len(inp) > 2): #error if command has more than 2 characters
-				print("Error: command not recognized")
+		cube.print_cube()
 
- 
+		while (1):
+			print(":::", end = " ")
+			inp = input()
+			if (inp == "Q" or inp == "q"):
+				break
+
+			if (len(inp) > 3): #error if command has more than 2 characters
+				print("Error: command not recognized")
+			else:	
+				if (inp == "ou"): #orient up
+					cube.orient("up")
+				elif (inp == "od"): #orient down
+					cube.orient("down")	
+				elif (inp == "or"): #orient right
+					cube.orient("right")	
+				elif (inp == "ol"): #orient down
+					cube.orient("left")	
+				elif (inp == "osr"): #orient side right
+					cube.orient("side right")
+				elif (inp == "osl"): #orient side left
+					cube.orient("side left")
+				else:
+					print("Error: command not recognized")
+
+			cube.print_cube()
