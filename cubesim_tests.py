@@ -73,13 +73,13 @@ class CubeSimTests():
 		
 		# Test left 1
 		verify_cube = [3, 2, 0, 1, 4, 5] 
-		cube.orient_cube("left")
+		cube.orient("left")
 		if (not self.compare_cube(cube, verify_cube)):
 			return False, "orient_cube left operation test 1: failed."
 
 		# Test left 2
 		verify_cube = [1, 0, 3, 2, 4, 5]
-		cube.orient_cube("left")
+		cube.orient("left")
 		if (not self.compare_cube(cube, verify_cube)):
 			return False, "orient_cube left operation test 2: failed."
 		
@@ -87,13 +87,13 @@ class CubeSimTests():
 	
 		# Test right 2
 		verify_cube = [2, 3, 1, 0, 4, 5]
-		cube.orient_cube("right")
+		cube.orient("right")
 		if (not self.compare_cube(cube, verify_cube)):
 			return False, "orient_cube right operation test 1: failed."
 
 		# Test right 2
 		verify_cube = [1, 0, 3, 2, 4, 5]
-		cube.orient_cube("right")
+		cube.orient("right")
 		if (not self.compare_cube(cube, verify_cube)):
 			return False, "orient_cube right operation test 2: failed."
 
@@ -109,13 +109,13 @@ class CubeSimTests():
 
 		# Test up 1
 		verify_cube = [5, 4, 2, 3, 0, 1]
-		cube.orient_cube("up")
+		cube.orient("up")
 		if (not self.compare_cube(cube, verify_cube)):
 			return False, "orient_cube up operation test 1: failed."
 
 		# Test up 2  
 		verify_cube = [1, 0, 2, 3, 5, 4]
-		cube.orient_cube("up")
+		cube.orient("up")
 		if (not self.compare_cube(cube, verify_cube)):
 			return False, "orient_cube up operation test 2: failed."
 
@@ -123,13 +123,13 @@ class CubeSimTests():
 
 		# Test down 1
 		verify_cube = [4, 5, 2, 3, 1, 0]
-		cube.orient_cube("down")
+		cube.orient("down")
 		if (not self.compare_cube(cube, verify_cube)):
 			return False, "orient_cube down operation test 1: failed."
 		
 		# Test down 2
 		verify_cube = [1, 0, 2, 3, 5, 4]
-		cube.orient_cube("down")
+		cube.orient("down")
 		if (not self.compare_cube(cube, verify_cube)):
 			return False, "orient_cube down operation test 2: failed."
 
@@ -142,13 +142,13 @@ class CubeSimTests():
 		
 		# Test side left 1
 		verify_cube = [0, 1, 4, 5, 3, 2]
-		cube.orient_cube("side left")
+		cube.orient("side left")
 		if (not self.compare_cube(cube, verify_cube)):
 			return False, "orient_cube side left operation test 1: failed."
 		
 		# Test side left 2	
 		verify_cube = [0, 1, 3, 2, 5, 4]
-		cube.orient_cube("side left")
+		cube.orient("side left")
 		if (not self.compare_cube(cube, verify_cube)):
 			return False, "orient_cube side left operation test 2: failed."
 
@@ -156,13 +156,13 @@ class CubeSimTests():
 
 		# Test side right 1
 		verify_cube = [0, 1, 5, 4, 2, 3]
-		cube.orient_cube("side right")
+		cube.orient("side right")
 		if (not self.compare_cube(cube, verify_cube)):
 			return False, "orient_cube side right operation test 1: failed."
 
 		# Test side right 2
 		verify_cube = [0, 1, 3, 2, 5, 4]	
-		cube.orient_cube("side right")
+		cube.orient("side right")
 		if (not self.compare_cube(cube, verify_cube)):
 			return False, "orient_cube side right operation test 2: failed."
 		return True, "orient_cube side operations: all tests passed."
