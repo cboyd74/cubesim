@@ -7,18 +7,12 @@ class CubeSimTests():
 		print("++ Welcome to the CubeSim tester.")
 		print("++++++++++++++++++++++++++++++++++++")
 
-	#-----------------------------------------------------------
-
 	def print_success(self, msg):
 		print("++", msg)
 
-	#-----------------------------------------------------------
-	
 	def print_failure(self, msg):
 		print("--", msg)
 
-	#-----------------------------------------------------------	
-	
 	# Compares the cube's Side's id with the sides given.
 	# Returns False if the sides are out of order.
 	def compare_cube(self,cube, verify_sides):
