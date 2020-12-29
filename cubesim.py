@@ -75,6 +75,23 @@ class Cube:
 			tmp = self.back
 			self.back = tmp2 # right becomes back
 			self.left = tmp # back becomes left
+		elif (direction == "side left"):
+			tmp = self.top
+			self.top = self.right
+			tmp2 = self.left
+			self.left = tmp
+			tmp = self.bottom
+			self.bottom = tmp2
+			self.right = tmp
+		
+		elif (direction == "side right"):
+			tmp = self.top
+			self.top = self.left
+			tmp2 = self.right
+			self.right = tmp
+			tmp = self.bottom
+			self.bottom = tmp2
+			self.left = tmp
 		else: #Error
 			print("orient_cube: input error!")
 
@@ -122,13 +139,19 @@ class Cube:
 class Side:
 
 	# members
-	#  |--	values:  2D numpy matrix	
-	#  |--	id:      ID of this side (0 - 5)
+	#  |--	values:    2D numpy matrix	
+	#  |--	id:        ID of this side (0 - 5)
+	#  |--  neighbors: 
 	#
 	def __init__(self, id, size):
 		self.size = size
 		self.id = id
-		self.values = np.full((self.size, self.size), self.id) 
+		self.values = np.full((self.size, self.size), self.id)
+
+	# Function to rotate the values of the cube
+	#  either left 90 or right 90
+	#  1 2   -->  3 1       1 2  -->  2 4
+	#  3 4        4 2   or  3 4       1 3
 
 class Sim:
 	def __init__(self):
