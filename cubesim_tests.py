@@ -1,14 +1,19 @@
 import cubesim 
+import sys
+from termcolor import colored
 
 class CubeSimTests():
 	
 	def __init__(self):
+		print("")
 		print("++++++++++++++++++++++++++++++++++++")
 		print("++ Welcome to the CubeSim tester.")
 		print("++++++++++++++++++++++++++++++++++++")
+		print("")
+
 
 	def print_success(self, msg):
-		print("++", msg)
+		print(colored("++", "green"), msg)
 
 	def print_failure(self, msg):
 		print("--", msg)
@@ -30,13 +35,41 @@ class CubeSimTests():
 			return False
 		return True	
 
+	def compare_side(self, side, verify_side):
+		for i in range(0, len(side)):
+			for j in range(0, len(side[i])):
+				if (side[i][j] != verify_side[i][j]):
+					return False
+		return True
+	
+	#-----------------------------------------------------------
+	
+	def test_side_rotate_right(self):
+		
+		return True, "rotate side right: all tests passed."
+	
+	#-----------------------------------------------------------
+	
+	def test_side_rotate_left(self):
+		side = cubesim.Side(1, 3)
+		side.values[0] = [5, 6, 7]
+		verify_side = [[7, 1, 1], [6,1,1], [5,1,1]]
+		side.rotate_left()
+		if (not self.compare_side(side.values, verify_side)):
+			return False, "test_side_rotate_left test 1: failed."
+		
+		verify_side = [[1, 1, 1], [1, 1, 1], [7, 6, 5]]
+		side.rotate_left()
+		if (not self.compare_side(side.values, verify_side)):
+			return False, "test_side_rotate_left test 2: failed."	
+		return True, "rotate_side_rotate_left: all tests passed."
+
 	#-----------------------------------------------------------
 
 	# Tests the functionality of left and right operations
 	# in Cube.orient_cube() 	
 	def test_orient_cube1(self):
 		cube = cubesim.Cube(3)
-	#	cube.print_cube()
 		
 		# Test left 1
 		verify_cube = [3, 2, 0, 1, 4, 5] 
@@ -144,6 +177,7 @@ class CubeSimTests():
 
 	def run_tests(self, tests):
 		print("Beginning", len(tests), "tests...")
+		print("")
 		passed = 0
 		for test in tests:
 			res, msg = test()
@@ -152,13 +186,19 @@ class CubeSimTests():
 				passed += 1
 			else:
 				self.print_failure(msg)
+		print("")
 		print("CubeSim Tester: passed", passed, "out of", len(tests), "tests.")
 		print("goodbye.")
+		print("")
 
 class Main():
 	def main():
 		tester = CubeSimTests()
-		tests = [tester.test_orient_cube1, tester.test_orient_cube2, tester.test_orient_cube3]
+		tests = [tester.test_side_rotate_left,
+				 tester.test_side_rotate_right, 
+				tester.test_orient_cube1, 
+				tester.test_orient_cube2, 
+				tester.test_orient_cube3]
 		tester.run_tests(tests)
 
 	if __name__ == "__main__":
