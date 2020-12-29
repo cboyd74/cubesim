@@ -1,5 +1,6 @@
 import numpy as np
 import sys
+from termcolor import colored
 
 # This class serves as a model for a Rubik's Cube, made up of Sides
 class Cube:
@@ -20,6 +21,7 @@ class Cube:
 		max_size = 8
 		min_size = 2
 		default_size = 3
+		self.colors = ["white", "yellow", "red", "magenta", "green", "blue"]
 		if (n <= max_size and n >= min_size):
 			self.size = n 
 		else: 
@@ -39,21 +41,27 @@ class Cube:
 
 	# Reorients the cube in the given direction: up, down, left, right
 	def orient_cube(self, direction):
-		# move cube up
 		if (direction == "up"):
 			tmp = self.front
 			self.front = self.bottom #bottom becomes front
 			tmp2 = self.top
+			tmp2.rotate_right()
+			tmp2.rotate_right()
 			self.top = tmp #front becomes top
 			tmp = self.back
+			tmp.rotate_right()
+			tmp.rotate_right()
 			self.back = tmp2 #top becomes back
 			self.bottom = tmp # back becomes bottom
 			self.left.rotate_left() # rotate left side
 			self.right.rotate_right() # rotate right side
-		# move cube down	
 		elif (direction == "down"):
 			tmp = self.back
+			tmp.rotate_right()
+			tmp.rotate_right()
 			self.back = self.bottom # bottom becomes back
+			self.back.rotate_right()
+			self.back.rotate_right()
 			tmp2 = self.top
 			self.top = tmp # back becomes top
 			tmp = self.front
@@ -85,11 +93,15 @@ class Cube:
 			self.bottom.rotate_right() # rotate bottom
 		# move cube side left
 		elif (direction == "side left"):
-			tmp = self.top 
+			tmp = self.top
+			tmp.rotate_left() 
 			self.top = self.right # top becomes right
-			tmp2 = self.left 
+			self.top.rotate_left()
+			tmp2 = self.left
+			tmp2.rotate_left() 
 			self.left = tmp # left becomes top
 			tmp = self.bottom 
+			tmp.rotate_left()
 			self.bottom = tmp2 # bottom becomes left
 			self.right = tmp # right becomes bottom
 			self.front.rotate_left() # rotate front
@@ -97,10 +109,14 @@ class Cube:
 		# move cube side right
 		elif (direction == "side right"):
 			tmp = self.top
+			tmp.rotate_right()
 			self.top = self.left
+			self.top.rotate_right()
 			tmp2 = self.right
+			tmp2.rotate_right()
 			self.right = tmp
 			tmp = self.bottom
+			tmp.rotate_right() #rotate right to adjust layout
 			self.bottom = tmp2
 			self.left = tmp
 			self.front.rotate_right() # rotate front
@@ -118,7 +134,8 @@ class Cube:
 	#Output stuff
 	def print_row(self, side, i):
 		for j in range(0, self.size):
-			print(side.values[i][j], sep = "", end = " ")
+			value = side.values[i][j]
+			print(colored(value, self.colors[value]), sep = "", end = " ")
 	
 	def print_cube(self):
 		print("+++++++++++++++++++++++++++++++++++++++")
@@ -168,19 +185,19 @@ class Side:
 	def rotate_right(self):
 		new_values = np.full((self.size, self.size), self.values)
 		row = 0
-		col = 0
+		col = self.size-1 
 		for i in range(0, self.size):
-			for j in range(self.size-1, -1, -1):
+			for j in range(0, self.size):
 				 new_values[row][col] = self.values[i][j]
 				 row += 1
 			row = 0
-			col += 1
+			col -= 1
 		self.values = new_values
 
 	def rotate_left(self):
 		new_values = np.full((self.size, self.size), self.values)
 		row = 0
-		col = 0
+		col = 0 
 		for i in range(0, self.size):
 			for j in range(self.size-1, -1, -1):
 				new_values[row][col] = self.values[i][j]
