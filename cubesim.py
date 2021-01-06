@@ -122,11 +122,76 @@ class Cube:
 
 		else: # input error
 			print("orient_cube: input error!")
+	
+	def move(face, top, bottom, left, right):
+		#rotate front right
+		face.rotate_right()
+
+        #top's last row becomes first column of right (in order)
+
+        #first column of right becomes first row of bottom (in reverse)
+
+        #first row of bottom becomes last column of left (in order)
+
+        #last column of left becomes last row of top (in reverse)
+
+	def prime(face, top, bottom, left, right):
+		#rotate front left
+		face.rotate_left()
+
+        #top's last row becomes last column of left (in reverse)
+
+        #left's last column becomes bottom's first row (in order)
+
+        #bottom's first row becomes right's first column (in reverse)
+
+        #right's first column becomes top's bottom row (in order)
 
 	#peforms the specified move, changes state of cube	
-	def move(component, direction):
-		#front to the right
+	def make_move(component, direction):
 		print("")
+
+		#front 
+			#rotate front right
+			
+			#top's last row becomes first column of right (in order)
+
+			#first column of right becomes first row of bottom (in reverse)
+		
+			#first row of bottom becomes last column of left (in order)
+
+			#last column of left becomes last row of top (in reverse)
+
+		#front p
+			#rotate front left
+
+			#top's last row becomes last column of left (in reverse)
+
+			#left's last column becomes bottom's first row (in order)
+
+			#bottom's first row becomes right's first column (in reverse) 
+			
+			#right's first column becomes top's bottom row (in order)
+
+		#right
+
+		#right p
+
+		#left 
+	
+		#left p
+
+		#up
+
+		#up p
+
+		#down 
+
+		#down p
+
+		#back
+
+		#back prime
 
 	#Output stuff
 	def print_row(self, side, i):
@@ -210,11 +275,12 @@ class Side:
 class Sim:
 	def __init__(self):
 		print("Welcome to CubeSim")
+		self.cube = Cube(3)
 		self.main()
 
 	def main(self):
 		cube = Cube(3)
-		self.cubing(cube)
+		self.cubing(self.cube)
 
 	def cubing(self, cube):
 		cube.print_cube()
