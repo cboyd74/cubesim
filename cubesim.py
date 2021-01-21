@@ -123,19 +123,37 @@ class Cube:
 		else: # input error
 			print("orient_cube: input error!")
 	
-	def move(face, top, bottom, left, right):
+	def move(self, face, top, bottom, left, right):
 		#rotate front right
 		face.rotate_right()
 
         #top's last row becomes first column of right (in order)
+		tmp = []
+		for i in range(0, self.size):
+			tmp.append(right.values[i][0]) #save right's first column
+			right.values[i][0] = top.values[self.size-1][i] #set right's first column
 
         #first column of right becomes first row of bottom (in reverse)
+		tmp2 = []
+		j = self.size-1 
+		for i in range(0, self.size):
+			tmp2.append(bottom.values[0][i]) #save bottom's first  
+			bottom.values[0][i] = tmp[j] #set bottom's first column (reverse)
+			j-=1
 
         #first row of bottom becomes last column of left (in order)
+		tmp = []
+		for i in range(0, self.size):
+			tmp.append(left.values[i][self.size-1]) #save left's last column 
+			left.values[i][self.size-1] = tmp2[i] #set left's first column (reverse)
 
         #last column of left becomes last row of top (in reverse)
+		j = self.size-1
+		for i in range(0, self.size):
+			top.values[self.size-1][i] = tmp[j]
+			j-=1
 
-	def prime(face, top, bottom, left, right):
+	def prime(self, face, top, bottom, left, right):
 		#rotate front left
 		face.rotate_left()
 
@@ -148,50 +166,45 @@ class Cube:
         #right's first column becomes top's bottom row (in order)
 
 	#peforms the specified move, changes state of cube	
-	def make_move(component, direction):
+	def make_move(self, side, p):
 		print("")
-
-		#front 
-			#rotate front right
-			
-			#top's last row becomes first column of right (in order)
-
-			#first column of right becomes first row of bottom (in reverse)
 		
-			#first row of bottom becomes last column of left (in order)
-
-			#last column of left becomes last row of top (in reverse)
-
-		#front p
-			#rotate front left
-
-			#top's last row becomes last column of left (in reverse)
-
-			#left's last column becomes bottom's first row (in order)
-
-			#bottom's first row becomes right's first column (in reverse) 
-			
-			#right's first column becomes top's bottom row (in order)
-
+		#front
+		if (side == "f"):
+			if (p == 1):
+				self.prime(self.front, self.top, self.bottom, self.left, self.right)
+			else:
+				self.move(self.front, self.top, self.bottom, self.left, self.right) 
 		#right
-
-		#right p
-
+		elif (side == "r"):
+			if (p == 1):
+				self.prime(self.right, self.top, self.bottom, self.front, self.back)
+			else:
+				self.move(self.right, self.top, self.bottom, self.front, self.back)
 		#left 
-	
-		#left p
-
+		elif (side == "l"):
+			if(p == 1):
+				self.prime(self.left, self.top, self.bottom, self.back, self.front)
+			else:
+				self.move(self.left, self.top, self.bottom, self.back, self.front)
 		#up
-
-		#up p
-
-		#down 
-
-		#down p
-
+		elif (side == "u"):
+			if (p == 1):
+				self.prime(self.top, self.back, self.front, self.left, self.right)
+			else:
+				self.move(self.top, self.back, self.front, self.left, self.right)
+		#down
+		elif (side == "d"):
+			if (p == 1):
+				self.prime(self.bottom, self.front, self.back, self.left, self.right)
+			else:
+				self.move(self.bottom, self.front, self.back, self.left, self.right) 
 		#back
-
-		#back prime
+		elif (side == "b"):
+			if (p == 1):
+				self.prime(self.back, self.top, self.bottom, self.right, self.left)
+			else:
+				self.move(self.back, self.top, self.bottom, self.right, self.left)
 
 	#Output stuff
 	def print_row(self, side, i):
@@ -306,6 +319,18 @@ class Sim:
 					cube.orient("side right")
 				elif (inp == "osl"): #orient side left
 					cube.orient("side left")
+				elif (inp == "mf"):
+					cube.make_move("f", 0)
+				elif (inp == "mr"):
+					cube.make_move("r", 0)
+				elif (inp == "ml"):
+					cube.make_move("l", 0)
+				elif (inp == "mu"):
+					cube.make_move("u", 0)
+				elif (inp == "md"):
+					cube.make_move("d", 0)
+				elif(inp == "mb"):
+					cube.make_move("b", 0)
 				else:
 					print("Error: command not recognized")
 
